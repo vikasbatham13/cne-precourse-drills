@@ -39,7 +39,7 @@ public class BusinessTest {
     }
 
     private void assessBusinessConstructor(Class<?> businessClass) {
-        Object business;
+        Object business = null;
         try {
             business = businessClass
                     .getConstructor(String.class)
@@ -49,7 +49,7 @@ public class BusinessTest {
             return;
         } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
-            return;
+            fail("Something is wrong with the business constructor");
         }
 
         try {
@@ -58,6 +58,7 @@ public class BusinessTest {
             fail("Expected Business class to have a method named getName");
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
+            fail("Something is wrong with the Business::getName method");
         }
     }
 
@@ -70,17 +71,16 @@ public class BusinessTest {
             fail("Could not instantiate a Business object with new Business(\"Acme\");");
         }
 
-        Class<?> addressClass;
-        Object address;
+        Class<?> addressClass = null;
+        Object address = null;
+
         try {
             addressClass = Class.forName("com.galvanize.Address");
             address = addressClass.getConstructors()[0].newInstance("15 Main", "New York", "NY", "10012");
         } catch (ClassNotFoundException e) {
             fail("You haven't implemented the Address class yet");
-            return;
         } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
             fail("You haven't implemented the Address class correctly");
-            return;
         }
 
         try {
@@ -98,6 +98,7 @@ public class BusinessTest {
             fail("You haven't implemented the addAddress / getAddresses methods on Business correctly");
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
+            fail("Something is wrong with the Business::addAddress method");
         }
     }
 
@@ -194,6 +195,7 @@ public class BusinessTest {
             assertEquals("You haven't implemented Address toString correctly", address.toString(), "Street, City, ST 55555");
         } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
+            fail("Something is wrong with the Address::toString method");
         }
     }
 
@@ -243,6 +245,7 @@ public class BusinessTest {
             fail("Expected Addressable to declare a method named getAddresses");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            fail("Could not find class com.galvanize.Address");
         }
 
     }
@@ -255,6 +258,7 @@ public class BusinessTest {
             fail("Expected Addressable to declare a method named addAddress, with one parameter of type Address");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            fail("Could not find class com.galvanize.Address");
         }
 
     }
